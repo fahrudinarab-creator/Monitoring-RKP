@@ -394,14 +394,18 @@ tampil = tbl[
 )
 tampil["Status"] = tampil["Status"].map(lambda s: STATUS_META[s][0])
 
+# Format kolom Rupiah jadi teks dengan titik pemisah ribuan (mis. Rp 2.332.411.214)
+tampil["Target Biaya (Rp)"] = tampil["Target Biaya (Rp)"].apply(lambda v: fmt_rp(v, singkat=False))
+tampil["Realisasi Biaya (Rp)"] = tampil["Realisasi Biaya (Rp)"].apply(lambda v: fmt_rp(v, singkat=False))
+
 st.dataframe(
     tampil,
     width='stretch',
     height=520,
     hide_index=True,
     column_config={
-        "Target Biaya (Rp)": st.column_config.NumberColumn(format="Rp %d"),
-        "Realisasi Biaya (Rp)": st.column_config.NumberColumn(format="Rp %d"),
+        "Target Biaya (Rp)": st.column_config.TextColumn(),
+        "Realisasi Biaya (Rp)": st.column_config.TextColumn(),
         "Capaian Biaya (%)": st.column_config.ProgressColumn(min_value=0, max_value=100, format="%.1f%%"),
         "Capaian Fisik (%)": st.column_config.ProgressColumn(min_value=0, max_value=100, format="%.1f%%"),
     },
